@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Financial plan</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+          integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+</head>
+<body>
+<div class="card">
+    <div class="card-body">
+        <div class="col-md-5">
+            <form action="#" th:action="@{/expenses/add}" th:object="${expense}" method="post">
+                <div class="row">
+                    <div class="form-group col-md-5">
+
+                        <input type="text" th:field="*{name}" class="form-control" id="name" placeholder="Name">
+                        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></span>
+                        <br>
+                        <td><input type="submit" class="btn btn-primary" value="save"></td>
+                    </div>
+                    <div class="form-group col-md-5">
+
+                        <input type="text" th:field="*{amount}" class="form-control" id="amount" placeholder="Amount">
+
+                        <span th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}" class="text-danger">
+
+                    </span>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<table class="table table-striped table-responsive-md">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Amount</th>
+        <th>Timestamp</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${expenses.empty}">
+        <td colspan="7"> No expenses</td>
+    </tr>
+    <tr th:each="expense : ${expenses}">
+        <td><span th:text="${expense.name}"></span></td>
+        <td><span th:text="${expense.amount}"></span></td>
+        <td><span th:text="${expense.timestamp}"></span></td>
+        <td><a th:href="@{/expenses/edit/{id}(id=${expense.id})}" class="btn btn-primary">Edit expense</a></td>
+        <td><a th:href="@{/expenses/delete/{id}(id=${expense.id})}" class="btn btn-primary">Delete expense</a></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
