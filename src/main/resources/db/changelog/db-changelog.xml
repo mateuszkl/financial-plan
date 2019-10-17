@@ -15,4 +15,8 @@
         </createTable>
     </changeSet>
 
+    <changeSet author="Mateusz" id="2">
+        <createSequence sequenceName="hibernate_sequence" startValue="1000"/>
+    </changeSet>
+
 </databaseChangeLog>
