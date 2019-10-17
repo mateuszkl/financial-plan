@@ -11,10 +11,13 @@ import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Entity
 @Data
+@Entity
 public class Expense {
 
+    public Expense() {
+        this.timestamp = LocalDateTime.now();
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,10 +26,8 @@ public class Expense {
     @NotBlank
     private String name;
 
-    @NotBlank
     private BigDecimal amount;
 
-    @NotBlank
     private LocalDateTime timestamp;
 
 }
