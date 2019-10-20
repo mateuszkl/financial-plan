@@ -35,6 +35,7 @@ public class ExpenseController {
     @PostMapping("/add")
     public String add(@Valid Expense expense, BindingResult result, Model model) {
         if (result.hasErrors()) {
+
             return "index";
         }
 
@@ -49,6 +50,7 @@ public class ExpenseController {
         Expense expense = expenseRepository.findById(id)
                 .orElseThrow(IllegalArgumentException::new);
         model.addAttribute("expense", expense);
+
         return "editExpense";
     }
 
@@ -58,11 +60,25 @@ public class ExpenseController {
 
         if (result.hasErrors()) {
             model.addAttribute("expense", expense);
+
             return "editExpense";
         }
 
         expenseRepository.save(expense);
         model.addAttribute(EXPENSES_ATTRIBUTE, expenseRepository.findAll());
+        return "index";
+    }
+
+    @GetMapping("delete/{id}")
+    public String delete(@PathVariable("id") Long id, Model model) {
+        Expense expense = expenseRepository.findById(id)
+                .orElseThrow(IllegalArgumentException::new);
+
+        expenseRepository.delete(expense);
+
+        model.addAttribute("expense", new Expense());
+        model.addAttribute(EXPENSES_ATTRIBUTE, expenseRepository.findAll());
+
         return "index";
     }
 }
