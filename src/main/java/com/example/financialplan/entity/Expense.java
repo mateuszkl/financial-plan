@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Data
 @Entity
@@ -35,4 +36,7 @@ public class Expense {
     @Enumerated(EnumType.STRING)
     private ExpenseCategory category;
 
+    public String getFormattedTimestamp() {
+        return timestamp.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+    }
 }
