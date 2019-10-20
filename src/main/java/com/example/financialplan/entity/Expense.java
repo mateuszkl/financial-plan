@@ -4,6 +4,8 @@ package com.example.financialplan.entity;
 import lombok.Data;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,5 +31,8 @@ public class Expense {
     private BigDecimal amount;
 
     private LocalDateTime timestamp;
+
+    @Enumerated(EnumType.STRING)
+    private ExpenseCategory category;
 
 }

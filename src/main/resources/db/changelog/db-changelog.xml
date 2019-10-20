@@ -19,4 +19,10 @@
         <createSequence sequenceName="hibernate_sequence" startValue="1000"/>
     </changeSet>
 
+    <changeSet id="3" author="Milena">
+        <addColumn tableName="expense">
+            <column name="category" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>
