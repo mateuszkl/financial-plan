@@ -1,6 +1,7 @@
 package com.example.financialplan.controller;
 
 import com.example.financialplan.entity.Expense;
+import com.example.financialplan.repository.BudgetRepository;
 import com.example.financialplan.repository.ExpenseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,6 +32,7 @@ public class ExpenseController {
 
         return "index";
     }
+
 
     @PostMapping("/add")
     public String add(@Valid Expense expense, BindingResult result, Model model) {
