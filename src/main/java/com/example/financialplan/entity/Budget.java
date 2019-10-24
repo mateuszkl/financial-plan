@@ -13,12 +13,10 @@ import java.util.Locale;
 @Data
 public class Budget {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     private ExpenseCategory category;
 
@@ -30,7 +28,5 @@ public class Budget {
 
     @NotNull
     private Integer year;
-
-
 
 }
