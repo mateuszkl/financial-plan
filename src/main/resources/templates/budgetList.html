@@ -14,19 +14,20 @@
         <div class="col-md-">
             <form action="#" th:action="@{/budget/add}" th:object="${budget}" method="post">
                 <div class="row">
-                    <div class="form-group col-md-2">
-                        <input type="number" step="0.01" th:field="*{amount}" class="form-control" id="amount"
-                               placeholder="Amount">
-                        <span th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}" class="text-danger"> </span>
-                    </div>
 
                     <div class="form-group col-md-2">
                         <select th:field="*{category}" class="form-control" id="category">
                             <option th:each="category : ${T(com.example.financialplan.entity.ExpenseCategory).values()}"
                                     th:value="${category}"
-                                    th:text="#{'expense.category.' + ${category}}">
+                                    th:text="#{'category.' + ${category}}">
                             </option>
                         </select>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <input type="number" step="0.01" th:field="*{amount}" class="form-control" id="amount"
+                               placeholder="Amount">
+                        <span th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}" class="text-danger"> </span>
                     </div>
 
                     <div class="form-group col-md-2">
@@ -62,8 +63,8 @@
 <table class="table table-striped table-responsive-md">
     <thead>
     <tr>
-        <th>Amount</th>
         <th>Category</th>
+        <th>Amount</th>
     </tr>
     </thead>
     <tbody>
@@ -71,8 +72,8 @@
         <td colspan="7"> No budgets</td>
     </tr>
     <tr th:each="budget : ${budgets}">
+        <td><span th:text="#{'category.' + ${budget.category}}"></span></td>
         <td><span th:text="${budget.amount}"></span></td>
-        <td><span th:text="#{'budget.category.' + ${budget.category}}"></span></td>
     </tr>
     </tbody>
 </table>

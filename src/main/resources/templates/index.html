@@ -19,19 +19,20 @@
                         <input type="text" th:field="*{name}" class="form-control" id="name" placeholder="Name">
                         <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></span>
                     </div>
-                    <div class="form-group col-md-3">
-                        <input type="number" step="0.01" th:field="*{amount}" class="form-control" id="amount"
-                               placeholder="Amount">
-                        <span th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}" class="text-danger"> </span>
-                    </div>
 
                     <div class="form-group col-md-3">
                         <select th:field="*{category}" class="form-control" id="category">
                             <option th:each="category : ${T(com.example.financialplan.entity.ExpenseCategory).values()}"
                                     th:value="${category}"
-                                    th:text="#{'expense.category.' + ${category}}">
+                                    th:text="#{'category.' + ${category}}">
                             </option>
                         </select>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <input type="number" step="0.01" th:field="*{amount}" class="form-control" id="amount"
+                               placeholder="Amount">
+                        <span th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}" class="text-danger"> </span>
                     </div>
 
                     <div class="form-group col-md-1">
@@ -49,8 +50,8 @@
     <thead>
     <tr>
         <th>Name</th>
-        <th>Amount</th>
         <th>Category</th>
+        <th>Amount</th>
         <th>Timestamp</th>
     </tr>
     </thead>
@@ -60,8 +61,8 @@
     </tr>
     <tr th:each="expense : ${expenses}">
         <td><span th:text="${expense.name}"></span></td>
+        <td><span th:text="#{'category.' + ${expense.category}}"></span></td>
         <td><span th:text="${expense.amount}"></span></td>
-        <td><span th:text="#{'expense.category.' + ${expense.category}}"></span></td>
         <td><span th:text="${expense.getFormattedTimestamp()}"></span></td>
         <td><a th:href="@{/expenses/edit/{id}(id=${expense.id})}" class="btn btn-primary">Edit expense</a></td>
         <td><a th:href="@{/expenses/delete/{id}(id=${expense.id})}" class="btn btn-primary">Delete expense</a></td>

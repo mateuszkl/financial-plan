@@ -26,11 +26,6 @@
                             <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></span>
                         </div>
                         <div class="form-group col-md-5">
-                            <input type="text" th:field="*{amount}" class="form-control" id="amount"
-                                   placeholder="Amount"> <span th:if="${#fields.hasErrors('amount')}"
-                                                               th:errors="*{amount}" class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-md-5">
                             <select th:field="*{category}" class="form-control" id="category">
                                 <option th:each="category : ${T(com.example.financialplan.entity.ExpenseCategory).values()}"
                                         th:value="${category}"
@@ -38,6 +33,12 @@
                                 </option>
                             </select>
                         </div>
+                        <div class="form-group col-md-5">
+                            <input type="text" th:field="*{amount}" class="form-control" id="amount"
+                                   placeholder="Amount"> <span th:if="${#fields.hasErrors('amount')}"
+                                                               th:errors="*{amount}" class="text-danger"></span>
+                        </div>
+
                         <div class="form-group col-md-5">
                             <input type="submit" class="btn btn-primary" value="Save">
                         </div>
