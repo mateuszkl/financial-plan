@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Report</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+          integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+</head>
+<body>
+<h2>Report</h2>
+<table class="table table-striped table-responsive-md">
+    <thead>
+    <tr>
+        <th>Amount planned</th>
+        <th>Amount left</th>
+        <th>Month</th>
+        <th>Category</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${reportEntries.empty}">
+        <td colspan="7">No reports</td>
+    </tr>
+    <tr th:each="reportEntry : ${reportEntries}">
+        <span th:if="${!reportEntry.isSummaryRow()}">
+            <td><span th:text="${reportEntry.amountPlanned}"></span></td>
+            <td><span th:text="${reportEntry.amountLeft}"></span></td>
+            <td><span th:text="#{'reportEntry.category.' + ${reportEntry.category}}"></span></td>
+        </span>
+    </tr>
+    </tbody>
+</table>
+
+<h2>Summary</h2>
+<table class="table table-striped table-responsive-md">
+    <thead>
+    <tr>
+        <th>Amount planned</th>
+        <th>Amount spent</th>
+        <th>Amount left</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${reportEntries.empty}">
+        <td colspan="7">No summary</td>
+    </tr>
+    <tr th:each="reportEntry : ${reportEntries}">
+        <div th:if="${reportEntry.isSummaryRow()}">
+            <td><span th:text="${reportEntry.amountPlanned}"></span></td>
+            <td><span th:text="${reportEntry.amountSpent}"></span></td>
+            <td><span th:text="${reportEntry.amountLeft}"></span></td>
+        </div>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
