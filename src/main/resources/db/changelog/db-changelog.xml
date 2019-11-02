@@ -25,4 +25,16 @@
         </addColumn>
     </changeSet>
 
+    <changeSet id="4" author="Michal">
+        <createTable tableName="budget">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="category" type="varchar(255)"/>
+            <column name="amount" type="DECIMAL"/>
+            <column name="month" type="INT"/>
+            <column name="year" type="INT"/>
+        </createTable>
+    </changeSet>
+
 </databaseChangeLog>
