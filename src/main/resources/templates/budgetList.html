@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Budget</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
@@ -11,65 +11,74 @@
 <body>
 <div class="card">
     <div class="card-body">
-        <div class="col-md-8">
+        <div class="col-md-10">
             <form action="#" th:action="@{/budget/add}" th:object="${budget}" method="post">
+                <div class="row">
+                    <div class="form-group col-md-2">
+                        <input type="number" step="0.01" th:field="*{amount}" class="form-control" id="amount"
+                               placeholder="Amount">
+                        <span th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}" class="text-danger"> </span>
+                    </div>
 
-                <div class="form-group col-md-3">
-                    <select th:field="*{category}" class="form-control" id="category">
-                        <option th:each="category : ${T(com.example.financialplan.entity.ExpenseCategory).values()}"
-                                th:value="${category}"
-                                th:text="#{'expense.category.' + ${category}}">
-                        </option>
-                    </select>
+                    <div class="form-group col-md-2">
+                        <select th:field="*{category}" class="form-control" id="category">
+                            <option th:each="category : ${T(com.example.financialplan.entity.ExpenseCategory).values()}"
+                                    th:value="${category}"
+                                    th:text="#{'expense.category.' + ${category}}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <select th:field="*{month}" class="form-control" id="month">
+                            <option th:each="month : ${months}"
+                                    th:text="${month}"
+                                    th:value="${month}"/>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <select th:field="*{year}" class="form-control" id="year">
+                            <option th:each="year : ${years}"
+                                    th:text="${year}"
+                                    th:value="${year}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-1">
+                        <button class="btn btn-primary" type="submit">Save</button>
+                    </div>
+
+                    <div class="form-group col-md-1">
+                        <a th:href="@{/expenses/list}" class="btn btn-primary">Expenses</a>
+                    </div>
+
                 </div>
-
-                <div class="form-group col-md-3">
-                    <input type="number" step="0.01" th:field="*{amount}" class="form-control" id="amount" placeholder="Amount">
-                    <span th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}" class="text-danger"> </span>
-                </div>
-
-                <div class="form-group col-md-3">
-                    <select th:field="*{month}" class="form-control" id="month">
-                        <option th:each="month : ${months}"
-                                th:text="${month}"
-                                th:value="${month}"/>
-                    </select>
-                </div>
-
-                <div class="form-group col-md-3">
-                    <select th:field="*{year}" class="form-control" id="year">
-                        <option th:each="year : ${years}"
-                                th:text="${year}"
-                                th:value="${year}"/>
-                    </select>
-
-                </div>
-                <div class="form-group col-md-1">
-                    <button class="btn btn-primary" type="submit">Save</button>
-                </div>
-
             </form>
-            <table class="table table-striped table-responsive-md">
-                <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Amount</th>
-                    <th>Category</th>
-                    <th>Timestamp</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:if="${budgets.empty}">
-                    <td colspan="7"> No budgets</td>
-                </tr>
-                <tr th:each="budget : ${budgets}">
-                    <td><span th:text="${budget.category}"></span></td>
-                    <td><span th:text="${budget.amount}"></span></td>
-                </tr>
-                </tbody>
-            </table>
         </div>
     </div>
+</div>
+</div>
+<table class="table table-striped table-responsive-md">
+    <thead>
+    <tr>
+        <th>Amount</th>
+        <th>Category</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${budgets.empty}">
+        <td colspan="7"> No budgets</td>
+    </tr>
+    <tr th:each="budget : ${budgets}">
+        <td><span th:text="${budget.amount}"></span></td>
+        <td><span th:text="#{'budget.category.' + ${budget.category}}"></span></td>
+    </tr>
+    </tbody>
+</table>
+</div>
+</div>
 </div>
 </body>
 </html>

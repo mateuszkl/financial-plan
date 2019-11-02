@@ -1,7 +1,6 @@
 package com.example.financialplan.controller;
 
 import com.example.financialplan.entity.Expense;
-import com.example.financialplan.repository.BudgetRepository;
 import com.example.financialplan.repository.ExpenseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/expenses")
@@ -23,7 +21,6 @@ public class ExpenseController {
 
     @Autowired
     private ExpenseRepository expenseRepository;
-
 
     @GetMapping("/list")
     public String show(Model model) {

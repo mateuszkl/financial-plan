@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Financial plan</title>
+    <title>Expenses</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
@@ -20,7 +20,8 @@
                         <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></span>
                     </div>
                     <div class="form-group col-md-3">
-                        <input type="number" step="0.01" th:field="*{amount}" class="form-control" id="amount" placeholder="Amount">
+                        <input type="number" step="0.01" th:field="*{amount}" class="form-control" id="amount"
+                               placeholder="Amount">
                         <span th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}" class="text-danger"> </span>
                     </div>
 
@@ -35,6 +36,9 @@
 
                     <div class="form-group col-md-1">
                         <button class="btn btn-primary" type="submit">Save</button>
+                    </div>
+                    <div class="form-group col-md-1">
+                        <a th:href="@{/budget/list}" class="btn btn-primary">Budget</a>
                     </div>
                 </div>
             </form>
