@@ -9,6 +9,7 @@
           integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 </head>
 <body>
+<div th:insert="navbar.html"></div>
 <div class="card">
     <div class="card-body">
         <div class="col-md-8">
@@ -37,9 +38,6 @@
 
                     <div class="form-group col-md-1">
                         <button class="btn btn-primary" type="submit">Save</button>
-                    </div>
-                    <div class="form-group col-md-1">
-                        <a th:href="@{/budget/list}" class="btn btn-primary">Budget</a>
                     </div>
                 </div>
             </form>
