@@ -37,7 +37,7 @@
                     </div>
 
                     <div class="form-group col-md-1">
-                        <button class="btn btn-primary" type="submit">Save</button>
+                        <button class="btn btn-dark" type="submit">Save</button>
                     </div>
                 </div>
             </form>
@@ -54,7 +54,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:if="${expenses.empty}">
+    <tr th:if="${expenses == null || expenses.empty}">
         <td colspan="7"> No expenses</td>
     </tr>
     <tr th:each="expense : ${expenses}">
@@ -62,8 +62,8 @@
         <td><span th:text="#{'category.' + ${expense.category}}"></span></td>
         <td><span th:text="${expense.amount}"></span></td>
         <td><span th:text="${expense.getFormattedTimestamp()}"></span></td>
-        <td><a th:href="@{/expenses/edit/{id}(id=${expense.id})}" class="btn btn-primary">Edit expense</a></td>
-        <td><a th:href="@{/expenses/delete/{id}(id=${expense.id})}" class="btn btn-primary">Delete expense</a></td>
+        <td><a th:href="@{/expenses/edit/{id}(id=${expense.id})}" class="btn btn-dark">Edit expense</a></td>
+        <td><a th:href="@{/expenses/delete/{id}(id=${expense.id})}" class="btn btn-dark">Delete expense</a></td>
     </tr>
     </tbody>
 </table>

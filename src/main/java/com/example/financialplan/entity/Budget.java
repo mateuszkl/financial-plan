@@ -9,9 +9,9 @@ import java.time.YearMonth;
 import java.util.Locale;
 
 
-@Entity
 @Data
-public class Budget {
+@Entity
+public class Budget extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

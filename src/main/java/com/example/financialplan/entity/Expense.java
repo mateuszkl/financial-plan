@@ -10,17 +10,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Data
 @Entity
-public class Expense {
-
-    public Expense() {
-        this.timestamp = LocalDateTime.now();
-    }
+public class Expense extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,12 +26,11 @@ public class Expense {
 
     private BigDecimal amount;
 
-    private LocalDateTime timestamp;
+    private Integer month;
+
+    private Integer year;
 
     @Enumerated(EnumType.STRING)
     private ExpenseCategory category;
 
-    public String getFormattedTimestamp() {
-        return timestamp.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-    }
 }

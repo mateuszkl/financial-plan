@@ -48,8 +48,7 @@ public class ReportController {
             LocalDate firstDayOfMonth = today.withDayOfMonth(1);
             LocalDate lastDayOfMonth = today.withDayOfMonth(today.lengthOfMonth());
 
-            List<Expense> expenses = expenseRepository.getAllByTimestampAfterAndTimestampBeforeAndCategory(firstDayOfMonth.atStartOfDay(), lastDayOfMonth.atTime(LocalTime.MAX), category);
-
+            List<Expense> expenses = expenseRepository.getAllByCreationDateTimeAfterAndCreationDateTimeBeforeAndCategory(firstDayOfMonth.atStartOfDay(), lastDayOfMonth.atTime(LocalTime.MAX), category);
             BigDecimal budgetSumForCategory = calculateBudgetSum(yearMonth, category, budgets);
             BigDecimal expenseSumForCategory = calculateExpensesSum(category, firstDayOfMonth, lastDayOfMonth, expenses);
 
@@ -100,8 +99,8 @@ public class ReportController {
     private BigDecimal calculateExpensesSum(ExpenseCategory category, LocalDate firstDayOfMonth, LocalDate lastDayOfMonth, List<Expense> expenses) {
         return expenses.stream()
                 .filter(expense -> expense.getCategory().equals(category))
-                .filter(expense -> expense.getTimestamp().isAfter(firstDayOfMonth.atStartOfDay()))
-                .filter(expense -> expense.getTimestamp().isBefore(lastDayOfMonth.atTime(LocalTime.MAX)))
+                .filter(expense -> expense.getCreationDateTime().isAfter(firstDayOfMonth.atStartOfDay()))
+                .filter(expense -> expense.getCreationDateTime().isBefore(lastDayOfMonth.atTime(LocalTime.MAX)))
                 .map(Expense::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }

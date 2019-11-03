@@ -13,5 +13,5 @@ import java.util.List;
 @Repository
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 
-    List<Expense> getAllByTimestampAfterAndTimestampBeforeAndCategory(LocalDateTime after, LocalDateTime before, ExpenseCategory category);
+    List<Expense> getAllByCreationDateTimeAfterAndCreationDateTimeBeforeAndCategory(LocalDateTime after, LocalDateTime before, ExpenseCategory category);
 }

@@ -37,4 +37,19 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="5" author="Milena">
+        <renameColumn tableName="expense" oldColumnName="timestamp" newColumnName="creation_date_time"/>
+
+        <addColumn tableName="expense">
+            <column name="modification_date_time" type="TIMESTAMP(6) WITHOUT TIME ZONE"/>
+            <column name="month" type="INT"/>
+            <column name="year" type="INT"/>
+        </addColumn>
+
+        <addColumn tableName="budget">
+            <column name="creation_date_time" type="TIMESTAMP(6) WITHOUT TIME ZONE"/>
+            <column name="modification_date_time" type="TIMESTAMP(6) WITHOUT TIME ZONE"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>
