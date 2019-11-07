@@ -1,9 +1,9 @@
 package com.example.financialplan.controller;
 
+import com.example.financialplan.common.YearMonthProvider;
 import com.example.financialplan.entity.Expense;
 import com.example.financialplan.repository.ExpenseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.time.YearMonth;
 
 @Controller
 @RequestMapping("/expenses")
@@ -23,14 +24,19 @@ public class ExpenseController {
     @Autowired
     private ExpenseRepository expenseRepository;
 
+    @Autowired
+    private YearMonthProvider yearMonthProvider;
+
     @GetMapping("/list")
     public String show(Model model) {
+
         model.addAttribute("expense", new Expense());
-        model.addAttribute(EXPENSES_ATTRIBUTE, expenseRepository.findAll());
+        model.addAttribute(EXPENSES_ATTRIBUTE, expenseRepository.getAllByYearAndMonth(YearMonth.now().getYear(), YearMonth.now().getMonthValue()));
+        model.addAttribute("months", yearMonthProvider.populateMonths());
+        model.addAttribute("years", yearMonthProvider.populateYears());
 
         return "index";
     }
-
 
     @PostMapping("/add")
     public String add(@Valid Expense expense, BindingResult result, Model model) {
@@ -39,7 +45,10 @@ public class ExpenseController {
         }
 
         expenseRepository.save(expense);
-        model.addAttribute(EXPENSES_ATTRIBUTE, expenseRepository.findAll());
+        model.addAttribute("expense", new Expense());
+        model.addAttribute(EXPENSES_ATTRIBUTE, expenseRepository.getAllByYearAndMonth(YearMonth.now().getYear(), YearMonth.now().getMonthValue()));
+        model.addAttribute("months", yearMonthProvider.populateMonths());
+        model.addAttribute("years", yearMonthProvider.populateYears());
 
         return "index";
     }

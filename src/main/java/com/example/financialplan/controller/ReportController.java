@@ -1,5 +1,6 @@
 package com.example.financialplan.controller;
 
+import com.example.financialplan.common.YearMonthProvider;
 import com.example.financialplan.entity.Budget;
 import com.example.financialplan.entity.Expense;
 import com.example.financialplan.entity.ExpenseCategory;
@@ -30,8 +31,13 @@ public class ReportController {
     @Autowired
     private BudgetRepository budgetRepository;
 
+    @Autowired
+    private YearMonthProvider yearMonthProvider;
+
     @GetMapping
     public String show(Model model) {
+        model.addAttribute("months", yearMonthProvider.populateMonths());
+        model.addAttribute("years", yearMonthProvider.populateYears());
         model.addAttribute("reportEntries", generateReport());
 
         return "report";
@@ -48,7 +54,7 @@ public class ReportController {
             LocalDate firstDayOfMonth = today.withDayOfMonth(1);
             LocalDate lastDayOfMonth = today.withDayOfMonth(today.lengthOfMonth());
 
-            List<Expense> expenses = expenseRepository.getAllByCreationDateTimeAfterAndCreationDateTimeBeforeAndCategory(firstDayOfMonth.atStartOfDay(), lastDayOfMonth.atTime(LocalTime.MAX), category);
+            List<Expense> expenses = expenseRepository.getAllByYearAndMonthAndCategory(YearMonth.now().getYear(),YearMonth.now().getMonthValue(), category);
             BigDecimal budgetSumForCategory = calculateBudgetSum(yearMonth, category, budgets);
             BigDecimal expenseSumForCategory = calculateExpensesSum(category, firstDayOfMonth, lastDayOfMonth, expenses);
 

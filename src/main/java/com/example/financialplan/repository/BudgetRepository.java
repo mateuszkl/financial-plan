@@ -12,5 +12,6 @@ import java.util.List;
 public interface BudgetRepository extends JpaRepository <Budget, Long> {
 
     List<Budget> getAllByYearAndMonthAndCategory(int year, int month, ExpenseCategory category);
+    List<Budget> getAllByYearAndMonth(int year, int month);
 
 }
