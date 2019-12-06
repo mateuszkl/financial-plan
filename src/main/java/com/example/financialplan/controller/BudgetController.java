@@ -4,7 +4,6 @@ package com.example.financialplan.controller;
 import com.example.financialplan.common.YearMonthProvider;
 import com.example.financialplan.entity.Budget;
 import com.example.financialplan.repository.BudgetRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,28 +12,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
-import java.time.YearMonth;
 
 @Controller
 @RequestMapping("/budget")
 public class BudgetController {
 
-    private static final String BUDGET_ATRIBUTE = "budgets";
+    private final BudgetRepository budgetRepository;
 
-    @Autowired
-    private BudgetRepository budgetRepository;
+    private final YearMonthProvider yearMonthProvider;
 
-    @Autowired
-    private YearMonthProvider yearMonthProvider;
+    public BudgetController(BudgetRepository budgetRepository, YearMonthProvider yearMonthProvider) {
+        this.budgetRepository = budgetRepository;
+        this.yearMonthProvider = yearMonthProvider;
+    }
 
     @GetMapping("/list")
     public String show(Model model) {
-        YearMonth current = YearMonth.now();
-
-        model.addAttribute("budget", new Budget());
-        model.addAttribute(BUDGET_ATRIBUTE, budgetRepository.getAllByYearAndMonth(current.getYear(),current.getMonthValue()));
-        model.addAttribute("months", yearMonthProvider.populateMonths());
-        model.addAttribute("years", yearMonthProvider.populateYears());
+        initializeViewData(model);
 
         return "budgetList";
     }
@@ -46,12 +40,16 @@ public class BudgetController {
         }
 
         budgetRepository.save(budget);
-        model.addAttribute("budget", new Budget());
-        model.addAttribute(BUDGET_ATRIBUTE, budgetRepository.findAll());
-        model.addAttribute("months", yearMonthProvider.populateMonths());
-        model.addAttribute("years", yearMonthProvider.populateYears());
+        initializeViewData(model);
 
         return "budgetList";
+    }
+
+    private void initializeViewData(Model model) {
+        model.addAttribute("budget", new Budget());
+        model.addAttribute("budgets", budgetRepository.getAllByYearAndMonth(yearMonthProvider.getYear(), yearMonthProvider.getMonth()));
+        model.addAttribute("months", yearMonthProvider.getMonths());
+        model.addAttribute("years", yearMonthProvider.getYears());
     }
 
 }
