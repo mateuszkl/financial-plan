@@ -2,7 +2,8 @@ package com.example.financialplan.controller;
 
 import com.example.financialplan.common.YearMonthProvider;
 import com.example.financialplan.entity.Expense;
-import com.example.financialplan.repository.ExpenseRepository;
+import com.example.financialplan.service.ExpenseService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,16 +16,11 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/expenses")
+@RequiredArgsConstructor
 public class ExpenseController {
 
-    private final ExpenseRepository expenseRepository;
-
     private final YearMonthProvider yearMonthProvider;
-
-    public ExpenseController(ExpenseRepository expenseRepository, YearMonthProvider yearMonthProvider) {
-        this.expenseRepository = expenseRepository;
-        this.yearMonthProvider = yearMonthProvider;
-    }
+    private final ExpenseService expenseService;
 
     @GetMapping("/list")
     public String show(Model model) {
@@ -35,7 +31,7 @@ public class ExpenseController {
 
     private void initializeViewData(Model model) {
         model.addAttribute("expense", new Expense());
-        model.addAttribute("expenses", expenseRepository.getAllByYearAndMonth(yearMonthProvider.getYear(), yearMonthProvider.getMonth()));
+        model.addAttribute("expenses", expenseService.getAllByYearAndMonth());
         model.addAttribute("months", yearMonthProvider.getMonths());
         model.addAttribute("years", yearMonthProvider.getYears());
         model.addAttribute("year", yearMonthProvider.getYear());
@@ -47,8 +43,8 @@ public class ExpenseController {
         if (result.hasErrors()) {
             return "index";
         }
+        expenseService.setYearMonthAndSave(expense);
 
-        expenseRepository.save(expense);
         initializeViewData(model);
 
         return "index";
@@ -56,7 +52,7 @@ public class ExpenseController {
 
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable("id") Long id, Model model) {
-        Expense expense = expenseRepository.findById(id)
+        Expense expense = expenseService.findById(id)
                 .orElseThrow(IllegalArgumentException::new);
 
         model.addAttribute("expense", expense);
@@ -74,21 +70,21 @@ public class ExpenseController {
             return "editExpense";
         }
 
-        expenseRepository.save(expense);
-        model.addAttribute("expenses", expenseRepository.getAllByYearAndMonth(yearMonthProvider.getYear(), yearMonthProvider.getMonth()));
+        expenseService.update(expense);
+        model.addAttribute("expenses", expenseService.getAllByYearAndMonth());
 
         return "index";
     }
 
     @GetMapping("delete/{id}")
     public String delete(@PathVariable("id") Long id, Model model) {
-        Expense expense = expenseRepository.findById(id)
+        Expense expense = expenseService.findById(id)
                 .orElseThrow(IllegalArgumentException::new);
 
-        expenseRepository.delete(expense);
+        expenseService.delete(expense);
 
         model.addAttribute("expense", new Expense());
-        model.addAttribute("expenses", expenseRepository.getAllByYearAndMonth(yearMonthProvider.getYear(), yearMonthProvider.getMonth()));
+        model.addAttribute("expenses", expenseService.getAllByYearAndMonth());
 
         return "index";
     }

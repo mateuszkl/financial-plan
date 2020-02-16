@@ -2,6 +2,7 @@ package com.example.financialplan.entity;
 
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -14,6 +15,7 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
 public class Expense extends BaseEntity {
 
