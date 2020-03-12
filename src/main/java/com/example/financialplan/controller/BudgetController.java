@@ -28,20 +28,17 @@ public class BudgetController {
     }
 
     @GetMapping("/list")
-    public String show(@ModelAttribute Budget budget, Model model) {
-        initializeViewData(model);
-
+    public String show(@ModelAttribute Budget budget) {
         return "budgetList";
     }
 
     @PostMapping("/add")
-    public String add(@Valid Budget budget, BindingResult result, Model model) {
+    public String add(@Valid Budget budget, BindingResult result) {
         if (result.hasErrors()) {
             return "budgetList";
         }
 
         budgetRepository.save(budget);
-        initializeViewData(model);
 
         return "budgetList";
     }

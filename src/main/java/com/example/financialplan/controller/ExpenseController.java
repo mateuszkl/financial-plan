@@ -42,6 +42,7 @@ public class ExpenseController {
         if (result.hasErrors()) {
             return "index";
         }
+
         expenseService.setYearMonthAndSave(expense);
 
         return "index";
@@ -73,11 +74,11 @@ public class ExpenseController {
     }
 
     @GetMapping("delete/{id}")
-    public String delete(@PathVariable("id") Long id) {
-        Expense expense = expenseService.findById(id)
+    public String delete(@ModelAttribute Expense expense, @PathVariable("id") Long id) {
+        Expense expenseToDelete = expenseService.findById(id)
                 .orElseThrow(IllegalArgumentException::new);
 
-        expenseService.delete(expense);
+        expenseService.delete(expenseToDelete);
 
         return "index";
     }
