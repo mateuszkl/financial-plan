@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -27,7 +28,7 @@ public class BudgetController {
     }
 
     @GetMapping("/list")
-    public String show(Model model) {
+    public String show(@ModelAttribute Budget budget, Model model) {
         initializeViewData(model);
 
         return "budgetList";
@@ -45,8 +46,8 @@ public class BudgetController {
         return "budgetList";
     }
 
-    private void initializeViewData(Model model) {
-        model.addAttribute("budget", new Budget());
+    @ModelAttribute
+    public void initializeViewData(Model model) {
         model.addAttribute("budgets", budgetRepository.getAllByYearAndMonth(yearMonthProvider.getYear(), yearMonthProvider.getMonth()));
         model.addAttribute("months", yearMonthProvider.getMonths());
         model.addAttribute("years", yearMonthProvider.getYears());

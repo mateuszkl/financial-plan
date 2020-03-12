@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,14 +24,12 @@ public class ExpenseController {
     private final ExpenseService expenseService;
 
     @GetMapping("/list")
-    public String show(Model model) {
-        initializeViewData(model);
-
+    public String show(@ModelAttribute Expense expense) {
         return "index";
     }
 
-    private void initializeViewData(Model model) {
-        model.addAttribute("expense", new Expense());
+    @ModelAttribute
+    public void initializeViewData(Model model) {
         model.addAttribute("expenses", expenseService.getAllByYearAndMonth());
         model.addAttribute("months", yearMonthProvider.getMonths());
         model.addAttribute("years", yearMonthProvider.getYears());
@@ -39,13 +38,11 @@ public class ExpenseController {
     }
 
     @PostMapping("/add")
-    public String add(@Valid Expense expense, BindingResult result, Model model) {
+    public String add(@Valid Expense expense, BindingResult result) {
         if (result.hasErrors()) {
             return "index";
         }
         expenseService.setYearMonthAndSave(expense);
-
-        initializeViewData(model);
 
         return "index";
     }
@@ -71,20 +68,16 @@ public class ExpenseController {
         }
 
         expenseService.update(expense);
-        model.addAttribute("expenses", expenseService.getAllByYearAndMonth());
 
         return "index";
     }
 
     @GetMapping("delete/{id}")
-    public String delete(@PathVariable("id") Long id, Model model) {
+    public String delete(@PathVariable("id") Long id) {
         Expense expense = expenseService.findById(id)
                 .orElseThrow(IllegalArgumentException::new);
 
         expenseService.delete(expense);
-
-        model.addAttribute("expense", new Expense());
-        model.addAttribute("expenses", expenseService.getAllByYearAndMonth());
 
         return "index";
     }

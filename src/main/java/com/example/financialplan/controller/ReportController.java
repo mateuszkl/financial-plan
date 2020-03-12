@@ -7,9 +7,11 @@ import com.example.financialplan.entity.ExpenseCategory;
 import com.example.financialplan.entity.ReportEntry;
 import com.example.financialplan.repository.BudgetRepository;
 import com.example.financialplan.repository.ExpenseRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.math.BigDecimal;
@@ -22,27 +24,23 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/report")
+@RequiredArgsConstructor
 public class ReportController {
 
     private final ExpenseRepository expenseRepository;
-
     private final BudgetRepository budgetRepository;
-
     private final YearMonthProvider yearMonthProvider;
 
-    public ReportController(ExpenseRepository expenseRepository, BudgetRepository budgetRepository, YearMonthProvider yearMonthProvider) {
-        this.expenseRepository = expenseRepository;
-        this.budgetRepository = budgetRepository;
-        this.yearMonthProvider = yearMonthProvider;
+    @GetMapping
+    public String show() {
+        return "report";
     }
 
-    @GetMapping
-    public String show(Model model) {
+    @ModelAttribute
+    public void initializeViewData(Model model) {
         model.addAttribute("years", yearMonthProvider.getYears());
         model.addAttribute("months", yearMonthProvider.getMonths());
         model.addAttribute("reportEntries", generateReport());
-
-        return "report";
     }
 
     private List<ReportEntry> generateReport() {
